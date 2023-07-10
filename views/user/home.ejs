@@ -1,0 +1,227 @@
+<%- include('../partials/user/header') %>
+
+
+        <main class="main">
+            <div class="intro-slider-container">
+                <div class="intro-slider owl-carousel owl-simple owl-nav-inside owl-light" data-toggle="owl" data-owl-options='{"nav":false, "dots": false, "loop": false}'>
+                    <div class="intro-slide" style="background-image: url(assets/images/demos/demo-15/slider/slide-1.jpg);">
+                        <div class="container intro-content text-center">
+                            <h3 class="intro-subtitle"></h3><!-- End .h3 intro-subtitle -->
+                            <h1 class="intro-title text-white"></h1><!-- End .intro-title -->
+
+                            <!-- <a href="#scroll-to-content" class="btn btn-outline-primary-2 scroll-to">
+                                <span>Start scrolling</span>
+                                <i class="icon-long-arrow-down"></i>
+                            </a> -->
+                        </div><!-- End .intro-content -->
+                    </div><!-- End .intro-slide -->
+                </div><!-- End .intro-slider owl-carousel owl-simple -->
+
+                <span class="slider-loader text-white"></span><!-- End .slider-loader -->
+            </div><!-- End .intro-slider-container -->
+
+            <%if(locals.mobile.length){%>
+            
+            <div class="display-row" id="scroll-to-content">
+                <div class="container-fluid">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6 order-lg-last">
+                            <div class="banner banner-overlay">
+                                <a href="#">
+                                    <img src="uploads/<%=mobile[0].productimages[0]%>" alt="Banner">
+                                </a>
+
+                                <div class="banner-content men">
+                                    <h2 class="banner-title text-white"><%=mobile[0].productname%></h2><!-- End .banner-title -->
+                                    <h3 class="banner-subtitle text-brightblack">Mobile Phone</h3><!-- End .banner-subtitle -->
+
+                                    <ul class="text-white">
+                                        <%=mobile[0].productdescription%>
+                                    </ul>
+
+                                    <div class="banner-text text-brightblack">₹<%=mobile[0].productprice%></div><!-- End .banner-text -->
+                                    <a href="/addToCart?id=<%=mobile[0]._id%>" class="btn btn-outline-primary-2"><span>ADD TO CART</span><i class="icon-long-arrow-right"></i></a>
+                                </div><!-- End .banner-content -->
+                            </div><!-- End .banner -->
+                        </div><!-- End .col-lg-6 -->
+
+                        <div class="col-lg-6">
+                            <div class="heading text-center">
+                                <h2 class="title">About This Look</h2><!-- End .title text-center -->
+                                <p class="title-desc">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis.</p><!-- End .title-desc -->
+                            </div><!-- End .heading -->
+
+                            <div class="row">
+                                <div class="col-lg-8 offset-lg-2">
+                                    <div class="row">
+                                        <%for(let i=1;i<3;i++){%>
+                                        <div class="col-6">
+                                            <div class="product product-4">
+                                                <figure class="product-media">
+                                                    <a href="product.html">
+                                                        <img src="uploads/<%=mobile[i].productimages[0]%>" alt="Product image" class="product-image">
+                                                    </a>
+
+                                                    <div class="product-action-vertical">
+                                                        <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
+                                                    </div><!-- End .product-action -->
+
+                                                    <div class="product-action">
+                                                        <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                                    </div><!-- End .product-action -->
+                                                </figure><!-- End .product-media -->
+
+                                                <div class="product-body">
+                                                    <h3 class="product-title"><a href="product.html"><%=mobile[i].productname%></a></h3><!-- End .product-title -->
+                                                    <div class="product-price">
+                                                        <span class="new-price">₹<%=mobile[i].productprice%>.00</span>
+                                                        <!-- <span class="old-price">Was $1,400.00</span> -->
+                                                    </div><!-- End .product-price -->
+                                                </div><!-- End .product-body -->
+                                            </div><!-- End .product -->
+                                        </div><!-- End .col-sm-6 -->
+                                        <%}%>
+                                    </div><!-- End .row -->
+                                </div><!-- End .col-lg-8 offset-lg-2 -->
+                            </div><!-- End .row -->
+                        </div><!-- End .col-lg-6 -->
+                    </div><!-- End .row -->
+                </div><!-- End .container-fluid -->
+            </div><!-- End .display-row -->
+            <%}%>
+            
+
+
+            
+
+            <div class="mb-7"></div><!-- End .mb-7 -->
+
+            <div class="blog-posts mb-9">
+                <div class="container-fluid">
+                    <div class="heading text-center">
+                        <h2 class="title">From Our Blog</h2><!-- End .title text-center -->
+                        <p class="title-desc">Donec odio. Quisque volutpat mattis eros. <br>Nullam malesuada erat</p><!-- End .title-desc -->
+                    </div><!-- End .heading -->
+
+                    <div class="owl-carousel owl-simple" data-toggle="owl" 
+                        data-owl-options='{
+                            "nav": false, 
+                            "dots": true,
+                            "items": 3,
+                            "margin": 20,
+                            "loop": false,
+                            "responsive": {
+                                "0": {
+                                    "items":1
+                                },
+                                "520": {
+                                    "items":2
+                                },
+                                "768": {
+                                    "items":3
+                                },
+                                "992": {
+                                    "items":4
+                                }
+                            }
+                        }'>
+                        <article class="entry">
+                            <figure class="entry-media">
+                                <a href="single.html">
+                                    <img src="assets/images/demos/demo-15/blog/post-1.jpg" alt="image desc">
+                                </a>
+                            </figure><!-- End .entry-media -->
+
+                            <div class="entry-body text-center">
+                                <div class="entry-meta">
+                                    <a href="#">Nov 22, 2018</a>, 1 Comments
+                                </div><!-- End .entry-meta -->
+
+                                <h3 class="entry-title">
+                                    <a href="single.html">Sed adipiscing ornare.</a>
+                                </h3><!-- End .entry-title -->
+
+                                <div class="entry-content">
+                                    <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. </p>
+                                    <a href="single.html" class="read-more">Read More</a>
+                                </div><!-- End .entry-content -->
+                            </div><!-- End .entry-body -->
+                        </article><!-- End .entry -->
+
+                        <article class="entry">
+                            <figure class="entry-media">
+                                <a href="single.html">
+                                    <img src="assets/images/demos/demo-15/blog/post-2.jpg" alt="image desc">
+                                </a>
+                            </figure><!-- End .entry-media -->
+
+                            <div class="entry-body text-center">
+                                <div class="entry-meta">
+                                    <a href="#">Dec 12, 2018</a>, 0 Comments
+                                </div><!-- End .entry-meta -->
+
+                                <h3 class="entry-title">
+                                    <a href="single.html">Fusce lacinia arcuet nulla.</a>
+                                </h3><!-- End .entry-title -->
+
+                                <div class="entry-content">
+                                    <p>Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. Suspendisse urnanib ... </p>
+                                    <a href="single.html" class="read-more">Read More</a>
+                                </div><!-- End .entry-content -->
+                            </div><!-- End .entry-body -->
+                        </article><!-- End .entry -->
+
+                        <article class="entry">
+                            <figure class="entry-media">
+                                <a href="single.html">
+                                    <img src="assets/images/demos/demo-15/blog/post-3.jpg" alt="image desc">
+                                </a>
+                            </figure><!-- End .entry-media -->
+
+                            <div class="entry-body text-center">
+                                <div class="entry-meta">
+                                    <a href="#">Dec 19, 2018</a>, 2 Comments
+                                </div><!-- End .entry-meta -->
+
+                                <h3 class="entry-title">
+                                    <a href="single.html">Quisque volutpat mattis eros.</a>
+                                </h3><!-- End .entry-title -->
+
+                                <div class="entry-content">
+                                    <p>Quisque volutpat mattis eros. Nullam malesuada eratut turpis. Suspendisse urna nibh, viverra non ...</p>
+                                    <a href="single.html" class="read-more">Read More</a>
+                                </div><!-- End .entry-content -->
+                            </div><!-- End .entry-body -->
+                        </article><!-- End .entry -->
+
+                        <article class="entry">
+                            <figure class="entry-media">
+                                <a href="single.html">
+                                    <img src="assets/images/demos/demo-15/blog/post-4.jpg" alt="image desc">
+                                </a>
+                            </figure><!-- End .entry-media -->
+
+                            <div class="entry-body text-center">
+                                <div class="entry-meta">
+                                    <a href="#">Dec 25, 2018</a>, 3 Comments
+                                </div><!-- End .entry-meta -->
+
+                                <h3 class="entry-title">
+                                    <a href="single.html">Mauris suscipit in massa.</a>
+                                </h3><!-- End .entry-title -->
+
+                                <div class="entry-content">
+                                    <p>Nullam malesuada eratut turpis. Suspendisse urna nibh, viverra non, semper suscipit, posuere a, pede.</p>
+                                    <a href="single.html" class="read-more">Read More</a>
+                                </div><!-- End .entry-content -->
+                            </div><!-- End .entry-body -->
+                        </article><!-- End .entry -->
+                    </div><!-- End .owl-carousel -->
+                </div><!-- End .container-fluid -->
+            </div><!-- End .blog-posts -->
+        </main><!-- End .main -->
+
+
+
+        <%- include('../partials/user/footer') -%>
+        

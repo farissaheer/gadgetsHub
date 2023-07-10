@@ -1,0 +1,154 @@
+
+<%- include('../partials/admin/header') -%>
+<body>
+  <div class="screen-overlay"></div>
+  <aside class="navbar-aside" id="offcanvas_aside">
+      <div class="aside-top">
+          <a href="index.html" class="brand-wrap">
+              <img src="asset/imgs/theme/logo.png" class="logo" alt="GadgetsHub Dashboard">
+          </a>
+          <div>
+              <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i> </button>
+          </div>
+      </div>
+      <nav>
+          <ul class="menu-aside">
+              <li class="menu-item">
+                  <a class="menu-link" href="/admin"> <i class="icon material-icons md-home"></i>
+                      <span class="text">Dashboard</span>
+                  </a>
+              </li>
+              <li class="menu-item has-submenu">
+                  <a class="menu-link" href="page-products-list.html"> <i class="icon material-icons md-shopping_bag"></i>
+                      <span class="text">Products</span>
+                  </a>
+                  <div class="submenu">
+                      <a href="/admin/productList">Product List</a>
+                      <a href="/admin/categoryPage">Categories</a>
+                  </div>
+              </li>
+              <li class="menu-item has-submenu">
+                  <a class="menu-link" href="#"> <i class="icon material-icons md-shopping_cart"></i>
+                      <span class="text">Orders</span>
+                  </a>
+                  <div class="submenu">
+                      <a href="/admin/order">Order List</a>                        
+                  </div>
+              </li>
+              <li class="menu-item">
+                  <a class="menu-link" href="/admin/addProduct"> <i class="icon material-icons md-add_box"></i>
+                      <span class="text">Add product</span>
+                  </a>                  
+              </li>
+              <li class="menu-item active has-submenu">
+                <a class="menu-link" href="#"> <i class="icon material-icons md-local_offer"></i>
+                    <span class="text">Coupons</span>
+                </a>
+                <div class="submenu">
+                    <a href="/admin/couponList">Coupon List</a>
+                    <a href="/admin/addCoupon" class="active">Add Coupon</a>
+                </div>
+              </li>
+              <li class="menu-item">
+                  <a class="menu-link" href="/admin/userList"> <i class="icon material-icons md-group"></i>
+                      <span class="text">Users</span>
+                  </a>
+              </li>
+              <li class="menu-item has-submenu">
+                <a class="menu-link" href="page-products-list.html"> <i class="icon material-icons md-shopping_bag"></i>
+                    <span class="text">Offers</span>
+                </a>
+                <div class="submenu">
+                    <a href="/admin/productOffer">Product Offer</a>
+                    <!-- <a href="/admin/categoryOffer">Category Offer</a> -->
+                </div>
+            </li>
+          </ul>
+      </nav>
+  </aside>
+  <main class="main-wrap">
+    <header class="main-header navbar">
+        <div class="col-search">
+        </div>
+        <div class="col-nav">
+            <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"> <i class="material-icons md-apps"></i> </button>
+            <ul class="nav">
+                <li class="dropdown nav-item">
+                    <a class="dropdown-item text-danger" href="/admin/logout"><i class="material-icons md-exit_to_app"></i>Logout</a>
+                </li>
+            </ul>
+        </div>
+    </header>
+
+        <section class="content-main">
+            <div class="row">
+                <div class="col-9">
+                    <div class="content-header">
+                        <h2 class="content-title">Add New Coupon</h2>
+                    </div>
+                </div>
+                <!-- <button class="btn btn-md rounded font-sm hover-up"  type="submit" >Add</button> -->
+                
+                <div class="col-lg-6">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h4>Add Coupon</h4>
+                        </div>
+                        <div class="card-body">
+                            <form action="/admin/addCoupon"  method="POST"  >
+                                <div class="mb-4">
+                                    <label for="product_name" class="form-label">Coupon code</label>
+                                    <input type="text" name="couponCode" placeholder="Type here"  class="form-control" id="product_name">
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <div class="mb-4">
+                                            <label class="form-label">Discount Price</label>
+                                            <div class="row gx-2">
+                                                <input placeholder="₹" name="couponAmount" type="text" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="mb-4">
+                                            <label class="form-label">Min Purchase</label>
+                                            <input placeholder="₹" type="text" name="minimumAmount" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="mb-4">
+                                            <label class="form-label">Expiry</label>
+                                            <input placeholder="" type="date" name="expireDate" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label class="form-label">Description</label>
+                                        <textarea placeholder="Type here" name="couponDescription" class="form-control" rows="4"></textarea>
+                                    </div>
+                                </div>
+                                <button class="btn btn-md rounded font-sm hover-up" type="submit">Add</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+  <!-- <div class="pagination-area mt-30 mb-50">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-start">
+                        <li class="page-item active"><a class="page-link" href="#">01</a></li>
+                        <li class="page-item"><a class="page-link" href="#">02</a></li>
+                        <li class="page-item"><a class="page-link" href="#">03</a></li>
+                        <li class="page-item"><a class="page-link dot" href="#">...</a></li>
+                        <li class="page-item"><a class="page-link" href="#">16</a></li>
+                        <li class="page-item"><a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a></li>
+                    </ul>
+                </nav>
+            </div> -->
+</section>
+<!-- content-main end// -->
+
+<%- include('../partials/admin/footer') -%>
+
+

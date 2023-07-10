@@ -1,0 +1,91 @@
+<%- include('../partials/user/header') %>
+    <main class="main">
+        <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
+            <div class="container">
+                <h1 class="page-title">Order<span>Details</span></h1>
+                <div class="cart-discount">
+                </div>
+            </div><!-- End .container -->
+        </div><!-- End .page-header -->           
+        
+        <div class="page-content">
+            <div class="checkout">
+                <div class="container">
+                    <h2 class="checkout-title">Billing Details</h2>
+
+                    <div class="summary">
+                        <h3 class="summary-title">Your Order</h3><!-- End .summary-title -->
+                        
+                        <table id="mytabel" class="table table-summary">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>                                            
+                                </tr>
+                            </thead>                                    
+                            <tbody> 
+                                <% order.products.forEach(function(product) { %>
+                                <tr>                                            
+                                    <td><%=product.productid.productname%></td>                                                                                      
+                                    <td ><%=product.quantity%></td>
+                                    <% let itemtotal = product.price * product.quantity%>
+                                    <td >₹<%=itemtotal%>.00</td>                                            
+                                </tr>
+                                <% }); %>
+                            </tbody>     
+                        </table><!-- End .table table-summary -->
+
+                        <table class="table table-summary">
+                            <tbody>
+                                <tr>
+                                    <td>Coupon Amount:</td>
+                                    <td >-₹<%=order.couponAmount%>.00</td>
+                                </tr>
+                                <tr class="summary-total">
+                                    <td>Total:</td>
+                                    <td >₹<%=order.totalAmount%>.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Order Status</td>
+                                    <td ><%=order.status%></td>
+                                </tr>
+                                <tr>
+                                    <td>Payment Method</td>
+                                    <td ><%=order.paymentMethod%></td>
+                                </tr>
+                                <%if(order.couponCode){%>
+                                <tr>
+                                    <td>Coupon Code:</td>
+                                    <td ><%=order.couponCode%></td>
+                                </tr>
+                                <%}%>
+                                <tr>
+                                    <td>Payment Status</td>
+                                    <% if(order.paymentStatus == "Unpaid")  { %>
+                                    <td class="text-danger"><%=order.paymentStatus%></td>
+                                    <% } else{ %>
+                                    <td class="text-success"><%=order.paymentStatus%></td>
+                                    <% } %>
+                                </tr>
+                                <tr>
+                                    <td>Order Date</td>
+                                    <td ><%=new Date(order.orderDate).toLocaleDateString()%></td>
+                                </tr>
+                                <tr>                                            
+                                    <td>Shipping Address</td>
+                                    <td>
+                                        <h4><%=order.address.name%></h4>
+                                        <%=order.address.address%> <br><%=order.address.landmark%><br>
+                                        <%=order.address.city%><br><%=order.address.State%>, 
+                                        <%=order.address.Pincode%>.<br>Phone: <%=order.address.phone%>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>  
+                    </div><!-- End .accordion -->
+                </div><!-- End .summary -->
+            </div>
+        </div>
+    </main><!-- End .main -->
+<%- include('../partials/user/footer') %>

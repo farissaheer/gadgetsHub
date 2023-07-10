@@ -1,0 +1,197 @@
+<%- include('../partials/admin/header') -%>
+<body>
+    <div class="screen-overlay"></div>
+    <aside class="navbar-aside" id="offcanvas_aside">
+        <div class="aside-top">
+            <a href="index.html" class="brand-wrap">
+                <img src="asset/imgs/theme/logo.png" class="logo" alt="GadgetsHub Dashboard">
+            </a>
+            <div>
+                <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i> </button>
+            </div>
+        </div>
+        <nav>
+            <ul class="menu-aside">
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin"> <i class="icon material-icons md-home"></i>
+                        <span class="text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="menu-item active has-submenu">
+                    <a class="menu-link" href="page-products-list.html"> <i class="icon material-icons md-shopping_bag"></i>
+                        <span class="text">Products</span>
+                    </a>
+                    <div class="submenu">
+                        <a href="/admin/productList" class="active">Product List</a>
+                        <a href="/admin/categoryPage">Categories</a>
+                    </div>
+                </li>
+                <li class="menu-item has-submenu">
+                    <a class="menu-link" href="#"> <i class="icon material-icons md-shopping_cart"></i>
+                        <span class="text">Orders</span>
+                    </a>
+                    <div class="submenu">
+                        <a href="/admin/order">Order List</a>                        
+                    </div>
+                </li>
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/addProduct"> <i class="icon material-icons md-add_box"></i>
+                        <span class="text">Add product</span>
+                    </a>                    
+                </li>
+                <li class="menu-item has-submenu">
+                    <a class="menu-link" href="#"> <i class="icon material-icons md-local_offer"></i>
+                        <span class="text">Coupons</span>
+                    </a>
+                    <div class="submenu">
+                        <a href="/admin/couponList">Coupon List</a>
+                        <a href="/admin/addCoupon">Add Coupon</a>
+                    </div>
+                </li>
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/userList"> <i class="icon material-icons md-group"></i>
+                        <span class="text">Users</span>
+                    </a>
+                </li>
+                <li class="menu-item has-submenu">
+                    <a class="menu-link" href="page-products-list.html"> <i class="icon material-icons md-shopping_bag"></i>
+                        <span class="text">Offers</span>
+                    </a>
+                    <div class="submenu">
+                        <a href="/admin/productOffer">Product Offer</a>
+                        <!-- <a href="/admin/categoryOffer">Category Offer</a> -->
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+    <main class="main-wrap">
+        <header class="main-header navbar">
+            <div class="col-search">
+            </div>
+            <div class="col-nav">
+                <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"> <i class="material-icons md-apps"></i> </button>
+                <ul class="nav">
+                    <li class="dropdown nav-item">
+                        <a class="dropdown-item text-danger" href="/admin/logout"><i class="material-icons md-exit_to_app"></i>Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </header>
+
+    <section class="content-main">
+        <form action="/admin/updateProduct" method="POST" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col-9">
+                    <div class="content-header">
+                        <h2 class="content-title">Update Existing Product</h2>
+                        <div>
+                            <!-- <button class="btn btn-light rounded font-sm mr-5 text-body hover-up">Save to draft</button> -->
+                            <button type="submit" class="btn btn-md rounded font-sm hover-up">Update</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h4>Basic</h4>
+                        </div>
+                        <div class="card-body">   
+                                <input type="hidden" name="id" value="<%=productData._id%>">                         
+                                <div class="mb-4">                                    
+                                    <label for="product_name" class="form-label">Product title</label>
+                                    <input type="text" value="<%=productData.productname%>" name="productname" class="form-control" id="product_name">
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label">Description</label>
+                                    <textarea name="productdescription" class="form-control" rows="4"><%=productData.productdescription%></textarea>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="mb-4">
+                                            <label class="form-label">Price</label>
+                                            <div class="row gx-2">
+                                                <input value="<%=productData.productprice%>" name="productprice" type="text" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="mb-4">
+                                            <label class="form-label">Quantity</label>
+                                            <input value="<%=productData.productquantity%>" min="1" type="number" name="productquantity" class="form-control">
+                                        </div>
+                                    </div>                                    
+                                </div>                                
+                        </div>
+                    </div> <!-- card end// -->                    
+                </div>
+                <div class="col-lg-4">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h4>Media</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="input-upload">
+                                <% for(let i=0;i<productData.productimages.length;i++){ %>                                
+                                    <a data-proid=<%=productData.productimages[i] %> ><img src="uploads/<%=productData.productimages[i] %>" alt="">  </a>
+                                    <input  type="button" value="Delete" data-proid=<%=productData.productimages[i] %>   class="buttonid"></input>
+                                <% } %>
+    
+                                <!-- <img src="asset/imgs/theme/upload.svg" alt=""> -->
+                                <input class="form-control" type="file" name="productimage" multiple>
+                            </div>
+                        </div>
+                    </div> <!-- card end// -->
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h4>Organization</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row gx-2">
+                                <div class="col-sm-12 mb-3">
+                                    <label class="form-label">Category</label>
+                                    <select name="productcategory" class="form-select">
+                                        <option> <%=productData.productcategory%> </option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-12 mb-3">
+                                    <label class="form-label">Brand</label>
+                                    <select name="productbrand" class="form-select">
+                                        <option> <%=productData.productbrand%> </option>
+                                        <!-- <option> Samsung </option>
+                                        <option> One + </option> -->
+                                    </select>
+                                </div>
+                            </div> <!-- row.// -->
+                        </div>
+                    </div> <!-- card end// -->
+                </div>
+            </div>
+        </form>
+    </section> <!-- content-main end// -->
+        
+<%- include('../partials/admin/footer') -%>
+
+<script>
+    $(document).ready(function(){
+        $('.buttonid').on('click', function(){
+            console.log("clicked");
+            var proID = $(this).data('proid')
+            console.log(proID);
+            data={ imageID: proID }
+            //with incrementing the quatity number ajax call
+            $.ajax({
+                url:'/admin/deleteimage',
+                method:"post",
+                data:data,
+                success: function(response){
+                    console.log(response);
+                    if(response.message == "1"){
+                        location.reload()
+                    }
+                }
+            })
+        });
+    });
+</script>
+

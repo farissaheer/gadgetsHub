@@ -1,0 +1,159 @@
+
+<%- include('../partials/admin/header') -%>
+<body>
+  <div class="screen-overlay"></div>
+  <aside class="navbar-aside" id="offcanvas_aside">
+      <div class="aside-top">
+          <a href="index.html" class="brand-wrap">
+              <img src="asset/imgs/theme/logo.png" class="logo" alt="GadgetsHub Dashboard">
+          </a>
+          <div>
+              <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i> </button>
+          </div>
+      </div>
+      <nav>
+          <ul class="menu-aside">
+              <li class="menu-item">
+                  <a class="menu-link" href="/admin"> <i class="icon material-icons md-home"></i>
+                      <span class="text">Dashboard</span>
+                  </a>
+              </li>
+              <li class="menu-item has-submenu">
+                  <a class="menu-link" href="page-products-list.html"> <i class="icon material-icons md-shopping_bag"></i>
+                      <span class="text">Products</span>
+                  </a>
+                  <div class="submenu">
+                      <a href="/admin/productList">Product List</a>
+                      <a href="/admin/categoryPage">Categories</a>
+                  </div>
+              </li>
+              <li class="menu-item has-submenu">
+                  <a class="menu-link" href="#"> <i class="icon material-icons md-shopping_cart"></i>
+                      <span class="text">Orders</span>
+                  </a>
+                  <div class="submenu">
+                      <a href="/admin/order">Order List</a>                        
+                  </div>
+              </li>
+              <li class="menu-item">
+                  <a class="menu-link" href="/admin/addProduct"> <i class="icon material-icons md-add_box"></i>
+                      <span class="text">Add product</span>
+                  </a>                  
+              </li>
+              <li class="menu-item active has-submenu">
+                <a class="menu-link" href="#"> <i class="icon material-icons md-local_offer"></i>
+                    <span class="text">Coupons</span>
+                </a>
+                <div class="submenu">
+                    <a href="/admin/couponList" class="active">Coupon List</a>
+                    <a href="/admin/addCoupon">Add Coupon</a>
+                </div>
+              </li>
+              <li class="menu-item">
+                  <a class="menu-link" href="/admin/userList"> <i class="icon material-icons md-group"></i>
+                      <span class="text">Users</span>
+                  </a>
+              </li>
+              <li class="menu-item has-submenu">
+                <a class="menu-link" href="page-products-list.html"> <i class="icon material-icons md-shopping_bag"></i>
+                    <span class="text">Offers</span>
+                </a>
+                <div class="submenu">
+                    <a href="/admin/productOffer">Product Offer</a>
+                    <!-- <a href="/admin/categoryOffer">Category Offer</a> -->
+                </div>
+            </li>
+          </ul>
+      </nav>
+  </aside>
+  <main class="main-wrap">
+    <header class="main-header navbar">
+      <div class="col-search">
+      </div>
+      <div class="col-nav">
+          <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"> <i class="material-icons md-apps"></i> </button>
+          <ul class="nav">
+              <li class="dropdown nav-item">
+                  <a class="dropdown-item text-danger" href="/admin/logout"><i class="material-icons md-exit_to_app"></i>Logout</a>
+              </li>
+          </ul>
+      </div>
+  </header>
+
+<section class="content-main">
+  <div class="content-header">
+      <h2 class="content-title">Coupons List</h2>
+      <div>                
+        <a href="/admin/addCoupon" type="submit" class="btn btn-primary btn-sm rounded">Add Coupon</a>
+      </div>
+  </div>
+  <div class="card mb-4">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-hover" id="usertable" >
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Discount Price</th>
+              <th>Min Purchase</th>
+              <th>Expiry</th>
+              <th>Edit</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% coupons.forEach((coupon) => { %>
+              <tr>
+                <td width="17%">
+                  <h6  class="mb-0 title"> <%-coupon.couponCode %> </h6>
+                </td>
+                <td width="17%">
+                  <h6 class="mb-0 title">₹ <%-coupon.couponAmount %></h6>
+                </td>
+                <td width="17%">
+                  <h6 class="mb-0 title">₹ <%-coupon.minimumAmount %></h6>
+                </td>
+                <td width="17%">
+                  <h6 class="mb-0 title"> <%=new Date(coupon.expireDate).toLocaleDateString()%></h6>
+                </td>
+                <td width="17%">
+                  <div class="">
+                    <a href="/admin/editcouponpage?id=<%= coupon._id %>" type="submit" class="btn btn-sm font-sm rounded btn-brand">
+                      <i class="material-icons md-edit"></i> Edit
+                    </a>
+                  </div>
+                </td>
+                <td width="17%">
+                  <div class="">
+                      <!-- <a href="/admin/deletecoupon?id=" type="submit" class="btn btn-sm font-sm btn-light rounded">
+                          <i class="material-icons md-delete_forever"></i> Delete
+                      </a> -->
+                      <button id="coupondeletebtn-<%= coupon._id %>"   data-couponid="<%= coupon._id %>" class="coupondeletebtn btn btn-sm font-sm btn-light rounded ">Delete</button>
+                  </div>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table> <!-- table-responsive.// -->
+      </div>
+    </div> <!-- card-body end// -->
+  </div> <!-- card end// -->
+
+  <!-- <div class="pagination-area mt-30 mb-50">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-start">
+                        <li class="page-item active"><a class="page-link" href="#">01</a></li>
+                        <li class="page-item"><a class="page-link" href="#">02</a></li>
+                        <li class="page-item"><a class="page-link" href="#">03</a></li>
+                        <li class="page-item"><a class="page-link dot" href="#">...</a></li>
+                        <li class="page-item"><a class="page-link" href="#">16</a></li>
+                        <li class="page-item"><a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a></li>
+                    </ul>
+                </nav>
+            </div> -->
+</section>
+<!-- content-main end// -->
+
+<%- include('../partials/admin/footer') -%>
+
+

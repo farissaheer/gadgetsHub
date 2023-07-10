@@ -1,0 +1,74 @@
+<%- include('../partials/user/header')%>
+
+<main class="main">
+    <div class="page-header text-center" style="background-image: url('assets/images/page-header-bg.jpg')">
+        <div class="container">
+            <h1 class="page-title">Wishlist<span>Shop</span></h1>
+        </div><!-- End .container -->
+    </div><!-- End .page-header -->
+    <nav aria-label="breadcrumb" class="breadcrumb-nav">
+        <div class="container">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                <li class="breadcrumb-item"><a href="/productHome">Products</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Wishlist</li>
+            </ol>
+        </div><!-- End .container -->
+    </nav><!-- End .breadcrumb-nav -->
+
+    <div class="page-content">
+        <div class="container">
+            <%if(wishlist){%>
+            <table class="table table-wishlist table-mobile">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Action</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <%wishlist.products.forEach(product=>{%>
+                    <tbody>
+                        <tr>
+                            <td class="product-col">
+                                <div class="product">
+                                    <figure class="product-media">
+                                        <a href="#">
+                                            <img src="uploads/<%=product.productid.productimages[0]%>" alt="Product image">
+                                        </a>
+                                    </figure>
+
+                                    <h3 class="product-title">
+                                        <a href="#"><%=product.productid.productname%></a>
+                                    </h3><!-- End .product-title -->
+                                </div><!-- End .product -->
+                            </td>
+                            <td class="price-col">₹<%=product.productid.productprice%>.00</td>
+                            <td class="action-col">
+                                <div class="dropdown">
+                                    <a href="/addToCart?id=<%=product.productid._id%>">
+                                        <button class="btn btn-block btn-outline-primary-2">
+                                            <i class="icon-shopping-cart" style="font-size: 20px;"></i>Add to Cart
+                                        </button>
+                                    </a>
+                                </div>
+                            </td>
+                            <td class="remove-col">
+                                <a href="/removeWishlist?productid=<%=product.productid._id%>">
+                                    <button class="btn-remove"><i class="icon-close"></i></button>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                <%})%>
+            </table><!-- End .table table-wishlist -->
+            <%}else{%>
+                <p> Hello<strong> <%=userData.name%>,</strong> <br> Your Wishlist is Empty</p> <br>
+                <a href="/productHome" class="btn btn-outline-dark-2  mb-3"><span>ADD PRODUCTS</span><i class="icon-refresh"></i></a>
+            <%}%>
+        </div><!-- End .container -->
+    </div><!-- End .page-content -->
+</main><!-- End .main -->
+
+        <%- include('../partials/user/footer') %>

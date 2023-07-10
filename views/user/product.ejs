@@ -1,0 +1,327 @@
+<%- include('../partials/user/header') -%>
+
+
+        <main class="main">
+            <nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
+                <div class="container d-flex align-items-center">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item"><a href="/productHome">Products</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Default</li>
+                    </ol>
+
+                    <!-- <nav class="product-pager ml-auto" aria-label="Product">
+                        <a class="product-pager-link product-pager-prev" href="#" aria-label="Previous" tabindex="-1">
+                            <i class="icon-angle-left"></i>
+                            <span>Prev</span>
+                        </a>
+
+                        <a class="product-pager-link product-pager-next" href="#" aria-label="Next" tabindex="-1">
+                            <span>Next</span>
+                            <i class="icon-angle-right"></i>
+                        </a>
+                    </nav> -->
+                </div><!-- End .container -->
+            </nav><!-- End .breadcrumb-nav -->
+
+            <div class="page-content">
+                <div class="container">
+                    <div class="product-details-top">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="product-gallery product-gallery-vertical">
+                                    <div class="row">
+                                        <figure class="product-main-image">
+                                            <%if(product.productquantity == 0) {%>
+                                                <span class="product-label label-out">Out of Stock</span>
+                                            <%} else {%>
+                                                <%if(product.offerpercentage>0){%>
+                                                    <span class="product-label label-sale text-end"><%=product.offerpercentage%>% off</span>
+                                                <%}%>
+                                            <%}%>
+                                            <img id="product-zoom" src="uploads/<%=product.productimages[0]%>" data-zoom-image="uploads/<%=product.productimages[0]%>" alt="product image">
+
+                                            <a href="#" id="btn-product-gallery" class="btn-product-gallery">
+                                                <i class="icon-arrows"></i>
+                                            </a>
+                                        </figure><!-- End .product-main-image -->
+
+                                        <div id="product-zoom-gallery" class="product-image-gallery">
+                                            <a class="product-gallery-item active" href="#" data-image="uploads/<%=product.productimages[0]%>" data-zoom-image="uploads/<%=product.productimages[0]%>">
+                                                <img src="uploads/<%=product.productimages[0]%>" alt="product side">
+                                            </a>
+
+                                            <%for(let i=1;i<product.productimages.length;i++){%>
+                                                <a class="product-gallery-item" href="#" data-image="uploads/<%=product.productimages[i]%>" data-zoom-image="uploads/<%=product.productimages[i]%>">
+                                                    <img src="uploads/<%=product.productimages[i]%>" alt="product cross">
+                                                </a>
+                                            <%}%>
+
+                                            
+                                        </div><!-- End .product-image-gallery -->
+                                    </div><!-- End .row -->
+                                </div><!-- End .product-gallery -->
+                            </div><!-- End .col-md-6 -->
+
+                            <div class="col-md-6">
+                                <div class="product-details">
+                                    <br>
+                                    <h1 class="product-title"><%=product.productname%></h1><!-- End .product-title -->
+                                    <br>
+                                    <%if(product.offerprice > 0) {%>
+                                        <div class="product-price">
+                                            ₹<%=product.offerprice%>.00&nbsp;&nbsp;
+                                            <span style="color: rgb(178, 161, 161);">
+                                                <s>₹<%=product.productprice%>.00</s>
+                                            </span>
+                                        </div><!-- End .product-price -->
+                                    <%} else {%>
+                                        <div class="product-price">
+                                            ₹<%=product.productprice%>.00
+                                        </div><!-- End .product-price -->
+                                    <%}%>
+                                    <br>
+                                    <div class="product-content">
+                                        <p><%=product.productdescription%></p>
+                                    </div><!-- End .product-content -->
+                                    <br>
+
+                                    <div class="product-details-action">
+                                        <!-- <a href="#" class="btn-product btn-cart"><span>add to cart</span></a> -->
+                                        <a href="/addToCart?id=<%=product._id%>">
+                                            <button class="btn btn-block btn-outline-primary-2">
+                                                <i class="icon-shopping-cart" style="font-size: 25px;"></i>Add to Cart
+                                            </button>
+                                        </a>
+
+                                        <div class="details-action-wrapper">
+                                            <a href="#" data-id="<%=product._id%>" class="btn-product btn-wishlist" title="Wishlist"><span>Add to Wishlist</span></a>
+                                        </div><!-- End .details-action-wrapper -->
+                                    </div><!-- End .product-details-action -->
+                                    <br>
+                                    <div class="product-details-footer">
+                                        <div class="product-cat">
+                                            <span>Category:</span>
+                                            <a href="#"><%=product.productcategory%></a>
+                                        </div><!-- End .product-cat -->
+                                    </div><!-- End .product-details-footer -->
+                                </div><!-- End .product-details -->
+                            </div><!-- End .col-md-6 -->
+                        </div><!-- End .row -->
+                    </div><!-- End .product-details-top -->
+
+                    <div class="product-details-tab">
+                        <ul class="nav nav-pills justify-content-center" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="product-desc-link" data-toggle="tab" href="#product-desc-tab" role="tab" aria-controls="product-desc-tab" aria-selected="true">Description</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="product-info-link" data-toggle="tab" href="#product-info-tab" role="tab" aria-controls="product-info-tab" aria-selected="false">Additional information</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="product-shipping-link" data-toggle="tab" href="#product-shipping-tab" role="tab" aria-controls="product-shipping-tab" aria-selected="false">Shipping & Returns</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="product-desc-tab" role="tabpanel" aria-labelledby="product-desc-link">
+                                <div class="product-desc-content">
+                                    <h3>Product Information</h3>
+                                    <p>Introducing our cutting-edge mobile phone and tablet, designed to revolutionize the way you communicate, work, and entertain. This sleek and powerful device is the perfect companion for your on-the-go lifestyle.
+                                        With its lightning-fast processor and seamless multitasking capabilities, our mobile phone and tablet ensure smooth performance, allowing you to effortlessly switch between apps, stream videos, and browse the web with lightning speed.
+                                        Experience stunning visuals on the high-resolution display, bringing your favorite movies, games, and photos to life with vibrant colors and sharp details. The touchscreen interface offers intuitive navigation, making it a breeze to interact with your device.
+                                    </p>
+                                    <ul>
+                                        <li>High-performance processor for seamless multitasking and fast app navigation. </li>
+                                        <li>Stunning high-resolution display for immersive viewing of movies, videos, and photos.</li>
+                                        <li>Intuitive touchscreen interface for easy and responsive interaction.</li>
+                                        <li>Advanced camera system for capturing high-quality photos and videos.</li>
+                                    </ul>
+
+                                    <p>Capture every moment with stunning clarity using the advanced camera system. From breathtaking landscapes to Instagram-worthy selfies, our mobile phone and tablet allow you to unleash your inner photographer and create memories to cherish.
+                                        Stay connected like never before with robust connectivity options, including Wi-Fi, Bluetooth, and 4G/LTE capabilities. Whether you're browsing social media, video calling your loved ones, or accessing important work documents, our device keeps you connected wherever you are.
+                                    </p>
+                                </div><!-- End .product-desc-content -->
+                            </div><!-- .End .tab-pane -->
+                            <div class="tab-pane fade" id="product-info-tab" role="tabpanel" aria-labelledby="product-info-link">
+                                <div class="product-desc-content">
+                                    <h3>Information</h3>
+                                    <p>Experience the future of mobile technology with our exceptional mobile phone and tablet. Discover a world of endless possibilities and redefine the way you connect, work, and play. Elevate your mobile experience today.
+                                        Sleek, lightweight, and stylish, our mobile phone and tablet are designed to impress. The slim profile and premium build quality make it a fashion statement that complements your personal style. </p>
+
+                                    <h3>Introducing Your Ultimate Mobile Companion</h3>
+                                    <ul>
+                                        <li>Premium build quality with a sleek metal and glass construction.</li>
+                                        <li>High-resolution touchscreen display for crisp and vibrant visuals.</li>
+                                        <li>Durable and scratch-resistant Gorilla Glass for added protection.</li>
+                                        <li>Dual or quad-camera setup for capturing professional-quality photos and videos.</li>
+                                        <li>AI-powered camera features like portrait mode, night mode, and scene recognition.</li>
+                                        <li>Expandable storage options with support for microSD cards.</li>
+                                    </ul>
+                                </div><!-- End .product-desc-content -->
+                            </div><!-- .End .tab-pane -->
+                            <div class="tab-pane fade" id="product-shipping-tab" role="tabpanel" aria-labelledby="product-shipping-link">
+                                <div class="product-desc-content">
+                                    <h3>Delivery & returns</h3>
+                                    <p>We deliver to over 100 countries around the world. For full details of the delivery options we offer, please view our <a href="#">Delivery information</a><br>
+                                    We hope you’ll love every purchase, but if you ever need to return an item you can do so within a month of receipt. For full details of how to make a return, please view our <a href="#">Returns information</a></p>
+                                </div><!-- End .product-desc-content -->
+                            </div><!-- .End .tab-pane -->
+                        </div><!-- End .tab-content -->
+                    </div><!-- End .product-details-tab -->
+
+                    <!-- <h2 class="title text-center mb-4">You May Also Like</h2>
+
+                    <div class="owl-carousel owl-simple carousel-equal-height carousel-with-shadow" data-toggle="owl" 
+                        data-owl-options='{
+                            "nav": false, 
+                            "dots": true,
+                            "margin": 20,
+                            "loop": false,
+                            "responsive": {
+                                "0": {
+                                    "items":1
+                                },
+                                "480": {
+                                    "items":2
+                                },
+                                "768": {
+                                    "items":3
+                                },
+                                "992": {
+                                    "items":4
+                                },
+                                "1200": {
+                                    "items":4,
+                                    "nav": true,
+                                    "dots": false
+                                }
+                            }
+                        }'>
+                        <div class="product product-7 text-center">
+                            <figure class="product-media">
+                                <span class="product-label label-new">New</span>
+                                <a href="product.html">
+                                    <img src="assets/images/products/product-4.jpg" alt="Product image" class="product-image">
+                                </a>
+
+                                <div class="product-action-vertical">
+                                    <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
+                                    <a href="popup/quickView.html" class="btn-product-icon btn-quickview" title="Quick view"><span>Quick view</span></a>
+                                    <a href="#" class="btn-product-icon btn-compare" title="Compare"><span>Compare</span></a>
+                                </div>
+
+                                <div class="product-action">
+                                    <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                </div>
+                            </figure>
+
+                            <div class="product-body">
+                                <div class="product-cat">
+                                    <a href="#">Women</a>
+                                </div>
+                                <h3 class="product-title"><a href="product.html">Brown paperbag waist <br>pencil skirt</a></h3>
+                                <div class="product-price">
+                                    $60.00
+                                </div>
+                                <div class="ratings-container">
+                                    <div class="ratings">
+                                        <div class="ratings-val" style="width: 20%;"></div>
+                                    </div>
+                                    <span class="ratings-text">( 2 Reviews )</span>
+                                </div>
+
+                                <div class="product-nav product-nav-thumbs">
+                                    <a href="#" class="active">
+                                        <img src="assets/images/products/product-4-thumb.jpg" alt="product desc">
+                                    </a>
+                                    <a href="#">
+                                        <img src="assets/images/products/product-4-2-thumb.jpg" alt="product desc">
+                                    </a>
+
+                                    <a href="#">
+                                        <img src="assets/images/products/product-4-3-thumb.jpg" alt="product desc">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="product product-7 text-center">
+                            <figure class="product-media">
+                                <span class="product-label label-out">Out of Stock</span>
+                                <a href="product.html">
+                                    <img src="assets/images/products/product-6.jpg" alt="Product image" class="product-image">
+                                </a>
+
+                                <div class="product-action-vertical">
+                                    <a href="#" class="btn-product-icon btn-wishlist btn-expandable"><span>add to wishlist</span></a>
+                                    <a href="popup/quickView.html" class="btn-product-icon btn-quickview" title="Quick view"><span>Quick view</span></a>
+                                    <a href="#" class="btn-product-icon btn-compare" title="Compare"><span>Compare</span></a>
+                                </div>
+
+                                <div class="product-action">
+                                    <a href="#" class="btn-product btn-cart"><span>add to cart</span></a>
+                                </div>
+                            </figure>
+
+                            <div class="product-body">
+                                <div class="product-cat">
+                                    <a href="#">Jackets</a>
+                                </div>
+                                <h3 class="product-title"><a href="product.html">Khaki utility boiler jumpsuit</a></h3>
+                                <div class="product-price">
+                                    <span class="out-price">$120.00</span>
+                                </div>
+                                <div class="ratings-container">
+                                    <div class="ratings">
+                                        <div class="ratings-val" style="width: 80%;"></div>
+                                    </div>
+                                    <span class="ratings-text">( 6 Reviews )</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div> -->
+                </div><!-- End .container -->
+            </div><!-- End .page-content -->
+        </main><!-- End .main -->
+
+        <%- include('../partials/user/footer') -%>
+
+        <script>
+            $(".btn-wishlist").on("click", function () {
+                var productid = $(this).data("id");
+                var data = { productid };
+                $.ajax({
+                url: "/addToWishlist",
+                type: "POST",
+                data: data,
+                success: function (res) {
+                    if (res.success) {
+                    Swal.fire({
+                        title: "Added",
+                        icon: "success",
+                        text: "Product added to wishlist",
+                        confirmButtonText: "OK",
+                    }).then((result) => {
+                        window.location.href = "/wishlist";
+                    });
+                    } else if (!res.success) {
+                    Swal.fire({
+                        title: "Failed",
+                        icon: "info",
+                        text: "Product already in wishlist",
+                        confirmButtonText: "OK",
+                    });
+                    } else {
+                    Swal.fire({
+                        title: "Error",
+                        text: "Something went worng try again after sometimes",
+                        icon: "error",
+                        confirmButtonText: "OK",
+                    });
+                    }
+                },
+                });
+            });
+
+        </script>

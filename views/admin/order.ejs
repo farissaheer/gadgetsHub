@@ -1,0 +1,176 @@
+<%- include('../partials/admin/header') -%>
+<body>
+    <div class="screen-overlay"></div>
+    <aside class="navbar-aside" id="offcanvas_aside">
+        <div class="aside-top">
+            <a href="index.html" class="brand-wrap">
+                <img src="asset/imgs/theme/logo.png" class="logo" alt="GadgetsHub Dashboard">
+            </a>
+            <div>
+                <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i> </button>
+            </div>
+        </div>
+        <nav>
+            <ul class="menu-aside">
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin"> <i class="icon material-icons md-home"></i>
+                        <span class="text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="menu-item has-submenu">
+                    <a class="menu-link" href="page-products-list.html"> <i class="icon material-icons md-shopping_bag"></i>
+                        <span class="text">Products</span>
+                    </a>
+                    <div class="submenu">
+                        <a href="/admin/productList">Product List</a>
+                        <a href="/admin/categoryPage">Categories</a>
+                    </div>
+                </li>
+                <li class="menu-item has-submenu active">
+                    <a class="menu-link" href="#"> <i class="icon material-icons md-shopping_cart"></i>
+                        <span class="text">Orders</span>
+                    </a>
+                    <div class="submenu">
+                        <a href="/admin/order" class="active">Order List</a>                        
+                    </div>
+                </li>
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/addProduct"> <i class="icon material-icons md-add_box"></i>
+                        <span class="text">Add product</span>
+                    </a>                    
+                </li>
+                <li class="menu-item has-submenu">
+                    <a class="menu-link" href="#"> <i class="icon material-icons md-local_offer"></i>
+                        <span class="text">Coupons</span>
+                    </a>
+                    <div class="submenu">
+                        <a href="/admin/couponList">Coupon List</a>
+                        <a href="/admin/addCoupon">Add Coupon</a>
+                    </div>
+                </li>
+                <li class="menu-item">
+                    <a class="menu-link" href="/admin/userList"> <i class="icon material-icons md-group"></i>
+                        <span class="text">Users</span>
+                    </a>
+                </li>
+                <li class="menu-item has-submenu">
+                    <a class="menu-link" href="page-products-list.html"> <i class="icon material-icons md-shopping_bag"></i>
+                        <span class="text">Offers</span>
+                    </a>
+                    <div class="submenu">
+                        <a href="/admin/productOffer">Product Offer</a>
+                        <!-- <a href="/admin/categoryOffer">Category Offer</a> -->
+                    </div>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+    <main class="main-wrap">
+        <header class="main-header navbar">
+            <div class="col-search">
+            </div>
+            <div class="col-nav">
+                <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"> <i class="material-icons md-apps"></i> </button>
+                <ul class="nav">
+                    <li class="dropdown nav-item">
+                        <a class="dropdown-item text-danger" href="/admin/logout"><i class="material-icons md-exit_to_app"></i>Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </header>
+
+    <section class="content-main">
+        <div class="content-header">
+            <div>
+                <h2 class="content-title card-title">Order List </h2>
+            </div>
+            <!-- <div>
+                <input type="text" placeholder="Search order ID" class="form-control bg-white">
+            </div> -->
+        </div>
+        <div class="card mb-4">
+            <!-- <header class="card-header">
+                <div class="row gx-3">
+                    <div class="col-lg-4 col-md-6 me-auto">
+                        <input type="text" placeholder="Search..." class="form-control">
+                    </div>
+                    <div class="col-lg-2 col-6 col-md-3">
+                        <select class="form-select">
+                            <option>Status</option>
+                            <option>Active</option>
+                            <option>Disabled</option>
+                            <option>Show all</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-2 col-6 col-md-3">
+                        <select class="form-select">
+                            <option>Show 20</option>
+                            <option>Show 30</option>
+                            <option>Show 40</option>
+                        </select>
+                    </div>
+                </div>
+            </header> -->
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>#ID</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Total</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <%orders.reverse().forEach((order)=>{%>
+                        <tbody>
+                            <tr>
+                                <td><%- order._id.toString().slice(-4) %></td>
+                                <td><b><%=order.userid.name%></b></td>
+                                <td><%=order.userid.email%></td>
+                                <td>₹<%=order.totalAmount%>.00</td>
+                                <% if (order.status == "Delivered" || order.status == "Completed") { %>
+                                    <td><span class="badge rounded-pill alert-success"><%=order.status%></span></td>
+                                <% } else if (order.status == "Pending") { %>
+                                    <td><span class="badge rounded-pill alert-warning"><%=order.status%></span></td>
+                                <%} else if (order.status == "Return Requested" || order.status == "Cancelled" || order.status == "Returned") { %>
+                                    <td><span class="badge rounded-pill alert-danger"><%=order.status%></span></td>
+                                <%} else { %>
+                                    <td><span class="badge rounded-pill alert-primary"><%=order.status%></span></td>
+                                <%}%>
+                                <td><%=new Date(order.orderDate).toLocaleDateString()%></td>
+                                <td>
+                                    <a href="/admin/orderdetails?id=<%=order._id%>" class="btn btn-md rounded font-sm">Detail</a>
+                                    <!-- <div class="dropdown">
+                                        <a href="#" data-bs-toggle="dropdown" class="btn btn-light rounded btn-sm font-sm"> <i class="material-icons md-more_horiz"></i> </a>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" href="#">View detail</a>
+                                            <a class="dropdown-item" href="#">Edit info</a>
+                                            <a class="dropdown-item text-danger" href="#">Delete</a>
+                                        </div>
+                                    </div> dropdown //end -->
+                                </td>
+                            </tr>
+                        </tbody>
+                        <%})%>
+                    </table>
+                </div> <!-- table-responsive //end -->
+            </div> <!-- card-body end// -->
+        </div> <!-- card end// -->
+        <!-- <div class="pagination-area mt-15 mb-50">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-start">
+                    <li class="page-item active"><a class="page-link" href="#">01</a></li>
+                    <li class="page-item"><a class="page-link" href="#">02</a></li>
+                    <li class="page-item"><a class="page-link" href="#">03</a></li>
+                    <li class="page-item"><a class="page-link dot" href="#">...</a></li>
+                    <li class="page-item"><a class="page-link" href="#">16</a></li>
+                    <li class="page-item"><a class="page-link" href="#"><i class="material-icons md-chevron_right"></i></a></li>
+                </ul>
+            </nav>
+        </div> -->
+    </section> <!-- content-main end// -->
+<%- include('../partials/admin/footer') -%>

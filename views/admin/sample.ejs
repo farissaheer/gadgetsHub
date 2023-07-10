@@ -1,0 +1,241 @@
+<%- include('../partials/header') %>
+<main class="main">
+  <div class="page-header text-center" style="background-image: url('assets/images/plantindoorhome.jpg')">
+    <div class="container">
+      <h1 class="page-title">URBAN<span>juNgLe</span></h1>
+    </div><!-- End .container -->
+  </div><!-- End .page-header -->
+
+  <div class="page-content">
+    <div class="container">
+      <div>
+
+
+      </div>
+      <div class="toolbox" style="padding-top: 41px;">
+
+        
+        <div class="toolbox-left" >
+          <a href="#" class="sidebar-toggler"><i class="icon-bars"></i>Filters</a>
+        </div><!-- End .toolbox-left -->
+
+       
+      </div><!-- End .toolbox -->
+
+      <div class="products mt-5 p-5">
+        <div class="row">
+          <% products.reverse().forEach(function(product) {
+            var offer = offers.find(function(offer) {
+              return offer.product.toString() === product._id.toString();
+            });
+          %>
+            <div class="product-item col-6 col-md-4 col-lg-4 col-xl-3 col-xxl-2" data-category="<%- product.category %>">
+              <div class="product">
+                <figure class="product-media">
+                  <a href="/viewproduct?id=<%= product._id %>">
+                    <img src="upload/<%= product.productimage[0] %>" alt="Product image" class="product-image">
+                  </a>
+                  <% if (offer) { %>
+                    <span class="product-label label-sale"><%- offer.offerPercentage %>% off</span>
+                  <% } %>
+        
+                  <div class="product-action-vertical">
+                    <a href="#" class="btn-product-icon btn-wishlist btn-expandable addtowhishlist" data-productid="<%= product._id %>">
+                      <span>add to wishlist</span>
+                    </a>
+                  </div>
+        
+                  <div class="product-action action-icon-top">
+                    <a href="#" class="btn-product btn-cart addtocartbutton" data-productid="<%= product._id %>">
+                      <span>add to cart</span>
+                    </a>
+                  </div>
+                </figure>
+        
+                <div class="product-body">
+                  <div class="product-cat">
+                    <a href="#"><%- product.category %></a>
+                  </div>
+                  <h3 class="product-title">
+                    <a href="product.html"><%- product.productname %></a>
+                  </h3>
+
+
+                  <div class="product-price">
+                    <% if (offer) { %>
+  <div class="product-price">
+    <span class="old-price">₹<%- product.price %></span>
+    <span class="offer-price">₹<%= product.offerprice %></span>
+  </div>
+<% } else { %>
+  <div class="product-price">
+    ₹<%- product.price %>
+  </div>
+<% } %>
+
+                  </div>
+                 
+
+                  
+                </div>
+              </div>
+            </div>
+          <% }); %>
+        </div>
+        
+        
+        
+        
+      </div>
+
+      <div class="sidebar-filter-overlay"></div><!-- End .sidebar-filter-overlay -->
+      <aside class="sidebar-shop sidebar-filter">
+        <div class="sidebar-filter-wrapper">
+          <div class="widget widget-clean">
+            <label><i class="icon-close"></i> <a href="#" class="aaaaaaaaaaaa">Filters</a> Filters</label>
+            <a href="#" class="sidebar-filter-clear">Clean All</a>
+          </div><!-- End .widget -->
+          <div class="widget widget-collapsible">
+            <h3 class="widget-title">
+              <a data-toggle="collapse" href="#widget-1" role="button" aria-expanded="true" aria-controls="widget-1">
+                Category
+              </a>
+            </h3><!-- End .widget-title -->
+
+            <div class="collapse show" id="widget-1">
+              <div class="widget-body">
+                <div class="filter-items filter-items-count">
+                  <% category.forEach(function(category) { %>
+                    <div class="filter-item">
+                      <div class="">
+                        <input type="checkbox" class="filter-checkbox" id="<%=category.categoryName%>" onchange="filterProducts()">
+                        <label class="" for="<%= category.categoryName %>"><%= category.categoryName %></label>
+                      </div><!-- End .custom-checkbox -->
+                    </div><!-- End .filter-item -->
+                  <% }) %>
+                </div><!-- End .filter-items -->
+              </div><!-- End .widget-body -->
+            </div>
+          </div><!-- End .widget -->
+        </div><!-- End .sidebar-filter-wrapper -->
+      </aside><!-- End .sidebar-filter -->
+    </div><!-- End .container -->
+  </div>
+</main>
+
+<div class="pagination justify-content-center">
+  <% if (totalPages > 1) { %>
+    <% if (currentPage > 1) { %>
+      <a href="/products?page=<%= currentPage - 1 %>" class="page-link page-link-prev"><span aria-hidden="true"><i class="icon-long-arrow-left"></i></span>Previous </a>
+    <% } %>
+
+    <% for (let i = 1; i <= totalPages; i++) { %>
+      <% if (i === currentPage) { %>
+        <span class="active page-link"><%= i %></span>
+      <% } else { %>
+        <a href="/products?page=<%= i %>" class="page-link"><%= i %></a>
+      <% } %>
+    <% } %>
+
+    <% if (currentPage < totalPages) { %>
+      <a href="/products?page=<%= currentPage + 1 %>" class="page-link page-link-next">Next <span aria-hidden="true"><i class="icon-long-arrow-right"></i></span></a>
+    <% } %>
+  <% } %>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+  $(".addtocartbutton").click(function () {
+    console.log("Button clicked");
+    let productid = $(this).data('productid');
+    console.log(productid);
+    $.ajax({
+      url: "/addtocart?id=" + productid,
+      type: "get",
+      success: function (response) {
+        if (response.message == "1") {
+          console.log('response is back');
+          Swal.fire({
+            title: "Success",
+            text: "Item is already added to cart",
+            icon: "info",
+            confirmButtonText: "OK"
+          });
+        } else {
+          console.log('response is back');
+          Swal.fire({
+            title: "Success",
+            text: "Item added to cart",
+            icon: "success",
+            confirmButtonText: "OK"
+          });
+        }
+      }
+    });
+  });
+
+  function filterProducts() {
+    const checkboxes = document.querySelectorAll('.filter-checkbox:checked');
+    const selectedCategories = Array.from(checkboxes).map(checkbox => checkbox.id);
+    const productItems = document.querySelectorAll('.product-item');
+
+    productItems.forEach(item => {
+      const category = item.dataset.category;
+
+      if (selectedCategories.length === 0 || selectedCategories.includes(category)) {
+        item.style.display = 'block';
+      } else {
+        item.style.display = 'none';
+      }
+    });
+  }
+</script>
+
+<script>
+  $(".addtowhishlist").click(function () {
+    console.log("button clicked");
+    let productid = $(this).data("productid");
+    console.log(productid);
+
+    $.ajax({
+      url: "/addtowhishlist?id=" + productid,
+      type: "GET",
+      success: function (response) {
+        if (response.message == "1") {
+          console.log('response is back');
+          Swal.fire({
+            title: "success",
+            text: "Item is already add to wishlist",
+            icon: "info",
+            confirmButtonText: "OK"
+          });
+        } else {
+          console.log('response is back');
+          Swal.fire({
+            title: "success",
+            text: "Added to wishlist",
+            icon: "success",
+            confirmButtonText: "OK"
+          });
+        }
+      }
+    });
+  });
+</script>
+
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/jquery.hoverIntent.min.js"></script>
+<script src="assets/js/jquery.waypoints.min.js"></script>
+<script src="assets/js/superfish.min.js"></script>
+<script src="assets/js/owl.carousel.min.js"></script>
+<script src="assets/js/wNumb.js"></script>
+<script src="assets/js/bootstrap-input-spinner.js"></script>
+<script src="assets/js/jquery.magnific-popup.min.js"></script>
+<script src="assets/js/nouislider.min.js"></script>
+<!-- Main JS File -->
+<script src="assets/js/main.js"></script>
+
+<!-- molla/category-boxed.html  22 Nov 2019 10:03:02 GMT -->
+</html>
