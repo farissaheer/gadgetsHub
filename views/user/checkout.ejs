@@ -126,8 +126,31 @@
                                         <td>Total:</td>
                                         <td id="finaltotal"></td>
                                     </tr><!-- End .summary-total -->
+                                    <tr style="display: none;" id="balancetr" class="summary-total">
+                                        <td>Balance:</td>
+                                        <td id="balanceamount"></td>
+                                    </tr>
                                 </tbody>
                             </table><!-- End .table table-summary -->
+                            <%if(wallet){%>
+                                <%if(wallet.balance>0 && wallet.balance<total){%>
+                                    <div class="card-header" id="heading-5">
+                                        <h4 class="card-title">
+                                            <a class="collapsed method" value="Wallet" role="button" data-method="Wallet" data-toggle="collapse" href="#collapse-5" aria-expanded="false" aria-controls="collapse-5">
+                                                Wallet
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapse-5" class="collapse" aria-labelledby="heading-5" data-parent="#accordion-payment">
+                                        <div class="card-body">
+                                            Available Balance: <span id="walletbalance" style="color: green;">₹<%=wallet.balance%>.00</span>
+                                            <button style="height: auto;margin-bottom: 1.3em;" class="usewallet btn btn-outline-primary-2" type="button">
+                                                Use Wallet Amount<i class="icon-long-arrow-right"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                <%}%>
+                            <%}%>
 
                             <div class="accordion-summary" id="accordion-payment">
                                 <div class="card">
@@ -222,6 +245,21 @@ function update_amounts() {
 }
 
 $(document).ready(function(){
+    $(".usewallet").on("click",function(){
+        console.log('clicked')
+        var walletbalance = $("#walletbalance").text().replace(/[^\d\.]/g, "");
+        var subtotal = $("#finaltotal").text().replace(/[^\d\.]/g, "");
+        subtotal = parseInt(subtotal);
+        walletbalance = parseInt(walletbalance);
+        let balance = subtotal - walletbalance;
+        let balancetr = document.getElementById("balancetr");
+        $("#balanceamount").text("₹" + balance.toFixed(2));
+        balancetr.style.display = "";
+
+    })
+})
+
+$(document).ready(function(){
     $(".couponbtn").on("click",function(){
         console.log('clicked')
         var couponCode = $("#couponCode").val();
@@ -270,13 +308,19 @@ $("#placeOrder").on("click", function () {
         var paymentMethod = $(
             '.accordion-summary .card-header .method[aria-expanded="true"]'
         ).data("method");
+        let walletused = 0;
         var couponCode = $("#couponCode").val();
         var couponAmount = $("#discount").text().replace(/[^\d\.]/g, "");
-        var purchase = $("#finaltotal").text().replace(/[^\d\.]/g, "");
-        // var categoryId =$('.category_id').val()
+        var totalAmount = $("#finaltotal").text().replace(/[^\d\.]/g, "");
+        var balance = $("#balanceamount").text().replace(/[^\d\.]/g, "");
+        if(balance){
+            totalAmount = balance;
+            walletused = $("#walletbalance").text().replace(/[^\d\.]/g, "");
+        }
         var data = {
+            walletused,
             paymentMethod,
-            totalAmount: purchase,
+            totalAmount,
             address,
             couponCode,
             couponAmount,
@@ -285,7 +329,7 @@ $("#placeOrder").on("click", function () {
             $.ajax({
                 url: "/razorpay",
                 type: "POST",
-                data: {  amount: purchase },
+                data: {  amount: totalAmount },
                 success: function(res) {
                     if(!res.message){
                         stockOut(res.msg);

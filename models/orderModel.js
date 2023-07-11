@@ -28,6 +28,10 @@ const orderSchema = mongoose.Schema(
       type: Number,
       required: true,
     },
+    walletused: {
+      type: Number,
+      default: 0,
+    },
     couponCode: {
       type: String,
       default: null,

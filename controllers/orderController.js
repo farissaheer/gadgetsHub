@@ -15,9 +15,16 @@ const razorpayInstance = new Razorpay({
 const order = {
   place: async (req, res) => {
     const { userData } = req.session;
-    const { address, totalAmount, paymentMethod, couponAmount, couponCode } =
-      req.body;
+    let {
+      address,
+      totalAmount,
+      paymentMethod,
+      couponAmount,
+      couponCode,
+      walletused,
+    } = req.body;
     try {
+      if (walletused) totalAmount = parseInt(totalAmount) + parseInt(walletused);
       let stock = await checkStock(userData);
       if (stock) {
         const orderdetail = new orderModel({
@@ -27,7 +34,8 @@ const order = {
           address,
           couponAmount,
         });
-        if (couponCode) orderdetail.couponCode == couponCode;
+        if (walletused) orderdetail.walletused = walletused;
+        if (couponCode) orderdetail.couponCode = couponCode;
         const cart = await cartModel
           .findOne({ userid: userData._id })
           .populate("products.productid");
@@ -46,6 +54,22 @@ const order = {
         }
         const newOrder = await orderdetail.save();
         userData.cartCount = 0;
+        if (walletused) {
+          await walletModel.updateOne(
+            { userid: userData._id },
+            {
+              $inc: { balance: -walletused },
+              $push: {
+                orderDetails: {
+                  orderid: newOrder._id,
+                  amount: walletused,
+                  type: "Used",
+                },
+              },
+            },
+            { new: true }
+          );
+        }
         if (paymentMethod == "Wallet") {
           await walletModel.updateOne(
             { userid: userData._id },
@@ -189,6 +213,23 @@ const order = {
           { paymentStatus: "Refund" },
           { new: true }
         );
+      }
+      if(order.walletused){
+        const userwallet = await walletModel.findOne({ userid: userData._id });
+        await walletModel.findByIdAndUpdate(
+            userwallet._id,
+            {
+              $inc: { balance: order.walletused },
+              $push: {
+                orderDetails: {
+                  orderid: id,
+                  amount: order.walletused,
+                  type: "Added",
+                },
+              },
+            },
+            { new: true }
+          );
       }
       for (const product of order.products) {
         await productModel.findByIdAndUpdate(

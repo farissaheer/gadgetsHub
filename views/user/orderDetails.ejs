@@ -46,6 +46,16 @@
                                     <td>Total:</td>
                                     <td >₹<%=order.totalAmount%>.00</td>
                                 </tr>
+                                <%if(order.walletused>0){%>
+                                    <tr>
+                                        <td>Wallet Amount:</td>
+                                        <td >₹<%=order.walletused%>.00</td>
+                                    </tr>
+                                    <tr class="summary-total">
+                                        <td>Balance Amount:</td>
+                                        <td >₹<%=order.totalAmount - order.walletused%>.00</td>
+                                    </tr>
+                                <%}%>
                                 <tr>
                                     <td>Order Status</td>
                                     <td ><%=order.status%></td>
