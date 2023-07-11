@@ -498,7 +498,6 @@ const user = {
       const categories = await categoryModel.find();
       const products = await productCollection
         .find({})
-        .reverse()
         .skip((currentPage - 1) * productsPerPage)
         .limit(productsPerPage)
         .exec();
