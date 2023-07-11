@@ -4,6 +4,7 @@ const productCollection = require("../models/productModel");
 const orderCollection = require("../models/orderModel");
 const moment = require("moment");
 const couponModel = require("../models/couponModel");
+const userModel = require("../models/userModel");
 
 const admin = {
   // Admin Login
@@ -24,9 +25,11 @@ const admin = {
         .populate("products.productid")
         .populate("userid")
         .exec();
+      const users = await userModel.find({isAdmin:{$ne:1}});
       const products = await productCollection.find();
+      const userCount = users.length;
       const productCount = products.length;
-      res.render("home", { adminName, orders, productCount });
+      res.render("home", { adminName, orders, productCount, userCount });
     } catch (error) {
       res.render("error", { error: error.message });
     }
