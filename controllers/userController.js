@@ -23,9 +23,15 @@ const user = {
       let mobile = await productCollection.find({
         productcategory: "Mobile Phone",
       });
+      let tablets = await productCollection.find({
+        productcategory: "Tablets",
+      });
+      tablets = tablets.reverse();
+      mobile = mobile.reverse();
       res.status(200).render("home", {
         userData,
         mobile,
+        tablets,
         messageAlert: title[0],
         success: req.flash("success")[0],
       });
@@ -530,7 +536,7 @@ const user = {
   },
 
   productsearch: async (req, res) => {
-    const { userData } = req.session
+    const { userData } = req.session;
     try {
       const searchname = req.body.searchname.toLowerCase().trim();
 
