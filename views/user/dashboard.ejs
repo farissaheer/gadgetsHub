@@ -50,7 +50,14 @@
 								<div class="tab-pane fade show active" id="tab-dashboard" role="tabpanel" aria-labelledby="tab-dashboard-link">
 									<p>Hello <span class="font-weight-normal text-dark"><%=userDetail.name%>,
 									<br>
-									<%=userDetail.email%><br><%=userDetail.phone%>
+									<%=userDetail.email%><br><%=userDetail.phone%> <br>
+									<%if(userDetail.referalCode){%>
+										Referal Code: <span style="color: green;"><%=userDetail.referalCode%></span>
+									<%} else {%>
+										<span style="color: green;">
+											Make atleast 3 online payment orders to get referal code
+										</span>
+									<%}%>
 								</div><!-- .End .tab-pane -->								    
 							</div>
 						</div><!-- End .col-lg-9 -->
