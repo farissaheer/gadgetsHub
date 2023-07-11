@@ -56,6 +56,7 @@ userRoute.post("/deleteAddress", userAuthenticate.isLogin, userAuthenticate.isBl
 
 userRoute.get("/productHome", userControl.mobileList);
 userRoute.get("/productView", userControl.productView);
+userRoute.post("/search", userControl.productsearch);
 // ------------------------ Wishlist -----------------------------
 userRoute.get("/wishlist", userAuthenticate.isLogin, userAuthenticate.isBlocked, wishlistControl.load);
 userRoute.post("/addToWishlist", userAuthenticate.isLogin, userAuthenticate.isBlocked, wishlistControl.add);

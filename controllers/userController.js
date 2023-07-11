@@ -528,6 +528,54 @@ const user = {
       res.render("error", { error: error.message });
     }
   },
+
+  productsearch: async (req, res) => {
+    const { userData } = req.session
+    try {
+      const searchname = req.body.searchname.toLowerCase().trim();
+
+      const currentPage = parseInt(req.query.page) || 1;
+      const productsPerPage = 10; // Define the number of products to display per page
+      const totalProducts = await productCollection.countDocuments({
+        productname: { $regex: searchname, $options: "i" },
+      });
+      const categories = await categoryModel.find({});
+      // const offers = await offerModel.find({});
+      const products = await productCollection.aggregate([
+        { $match: { productname: { $regex: searchname, $options: "i" } } },
+        { $skip: (currentPage - 1) * productsPerPage },
+        { $limit: productsPerPage },
+      ]);
+      const title = req.flash("title");
+      let success = req.flash("success");
+
+      if (products.length === 0) {
+        res.render("productList", {
+          products,
+          categories,
+          userData,
+          currentPage,
+          // offers: offers,
+          totalPages: Math.ceil(totalProducts / productsPerPage),
+          success: success[0],
+          messageAlert: title[0],
+        });
+      } else {
+        res.render("productList", {
+          products,
+          categories,
+          userData,
+          currentPage,
+          // offers: offers,
+          totalPages: Math.ceil(totalProducts / productsPerPage),
+          success: success[0],
+          messageAlert: title[0],
+        });
+      }
+    } catch (error) {
+      res.render("error", { error: error.message });
+    }
+  },
 };
 
 module.exports = user;

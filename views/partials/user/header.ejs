@@ -70,13 +70,15 @@
                     <div class="header-right">
                         <div class="header-search">
                             <a href="#" class="search-toggle" role="button"><i class="icon-search"></i></a>
-                            <form action="#" method="get">
+                            <form action="/search" method="post">
                                 <div class="header-search-wrapper">
                                     <label for="q" class="sr-only">Search</label>
-                                    <input type="search" class="form-control" name="q" id="q" placeholder="Search in..." required>
-                                </div><!-- End .header-search-wrapper -->
+                                    
+                                        <input type="search" class="form-control" name="searchname" id="q" placeholder="Search in..." required>
+
+                                </div>
                             </form>
-                        </div><!-- End .header-search -->
+                        </div>
 
                         <a href="/wishlist" class="wishlist-link">
                             <i class="icon-heart-o"></i>
