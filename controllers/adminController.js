@@ -477,7 +477,7 @@ const admin = {
     const { adminName } = req.session;
     try {
       let coupons = await couponModel.find({});
-      res.render("couponList", { coupons, adminName });
+      res.render("couponlist", { coupons, adminName });
     } catch (error) {
       res.render("error", { error: error.message });
     }
