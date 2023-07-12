@@ -8,7 +8,7 @@ const flash = require("connect-flash");
 const MongoStore = require("connect-mongo");
 const session = require("express-session");
 
-const connectDB = require("./helper/connectDB");
+const connectDB = require("./config/connectDB");
 const userRouter = require("./routes/userRoute");
 const adminRouter = require("./routes/adminRoute");
 
