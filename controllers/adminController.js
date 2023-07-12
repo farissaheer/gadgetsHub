@@ -448,7 +448,7 @@ const admin = {
           { new: true }
         );
         // const completionTime = moment(deliveredDate).add(1, "minute");
-        const completionTime = moment(deliveredDate).add(7, "days");
+        const completionTime = moment(deliveredDate).add(1, "days");
         setTimeout(async () => {
           const updatedOrder = await orderCollection.findById(orderid);
           if (
