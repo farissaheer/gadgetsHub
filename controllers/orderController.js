@@ -24,7 +24,8 @@ const order = {
       walletused,
     } = req.body;
     try {
-      if (walletused) totalAmount = parseInt(totalAmount) + parseInt(walletused);
+      if (walletused)
+        totalAmount = parseInt(totalAmount) + parseInt(walletused);
       let stock = await checkStock(userData);
       if (stock) {
         const orderdetail = new orderModel({
@@ -54,7 +55,7 @@ const order = {
         }
         const newOrder = await orderdetail.save();
         userData.cartCount = 0;
-        if (walletused) {
+        if (parseInt(walletused) > 0) {
           await walletModel.updateOne(
             { userid: userData._id },
             {
@@ -214,22 +215,22 @@ const order = {
           { new: true }
         );
       }
-      if(order.walletused){
+      if (order.walletused) {
         const userwallet = await walletModel.findOne({ userid: userData._id });
         await walletModel.findByIdAndUpdate(
-            userwallet._id,
-            {
-              $inc: { balance: order.walletused },
-              $push: {
-                orderDetails: {
-                  orderid: id,
-                  amount: order.walletused,
-                  type: "Added",
-                },
+          userwallet._id,
+          {
+            $inc: { balance: order.walletused },
+            $push: {
+              orderDetails: {
+                orderid: id,
+                amount: order.walletused,
+                type: "Added",
               },
             },
-            { new: true }
-          );
+          },
+          { new: true }
+        );
       }
       for (const product of order.products) {
         await productModel.findByIdAndUpdate(
