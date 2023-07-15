@@ -11,12 +11,9 @@ const userAuthenticate = require("../middlewares/userAuthentication");
 
 userRoute.set("views", "views/user");
 
-
-userRoute.get("/sample",(req,res)=>{
-    res.render("sample")
-})
+// --------------------- Home Page -------------------
 userRoute.get("/", userControl.homePage);
-
+// ------------------- Login Page --------------------
 userRoute.get("/login", userControl.loginPage);
 userRoute.post("/userlogin", userControl.loginVerify);
 // -------------- Forgot Password -------------------------
@@ -28,9 +25,9 @@ userRoute.post("/resetPassword", userControl.resetPassword);
 userRoute.get("/otplogin", userControl.otpLogin);
 userRoute.post("/otprequest", userControl.otpRequest);
 userRoute.post("/otpverify", userControl.otpVerify);
-
+// --------------------------- Logout --------------------
 userRoute.get("/logout", userControl.logoutUser);
-
+// -------------------------- User Signup ---------------
 userRoute.get("/signup", userControl.signupPage);
 userRoute.post("/signupOTPRequest", userControl.signupOTP);
 userRoute.post("/verifyOTPSignUP", userControl.OTPVerifySignUP);
@@ -53,7 +50,7 @@ userRoute.post("/addAddress", userAuthenticate.isLogin, userAuthenticate.isBlock
 userRoute.get("/editAddressPage", userAuthenticate.isLogin, userAuthenticate.isBlocked, addressControl.editAddressPage);
 userRoute.post("/editAddress", userAuthenticate.isLogin, userAuthenticate.isBlocked, addressControl.editAddress);
 userRoute.post("/deleteAddress", userAuthenticate.isLogin, userAuthenticate.isBlocked, addressControl.delete);
-
+// ---------------------------- Products -----------------------------
 userRoute.get("/productHome", userControl.mobileList);
 userRoute.get("/productView", userControl.productView);
 userRoute.post("/search", userControl.productsearch);
@@ -74,10 +71,5 @@ userRoute.post("/checkvalidcoupon", userAuthenticate.isLogin, userAuthenticate.i
 userRoute.post('/razorpay',userAuthenticate.isLogin, userAuthenticate.isBlocked, orderControl.createOrder);
 userRoute.post('/placeOrder', userAuthenticate.isLogin, userAuthenticate.isBlocked, orderControl.place);
 userRoute.get('/orderDetails', userAuthenticate.isLogin, userAuthenticate.isBlocked, orderControl.details);
-
-userRoute.get("/sample", (req,res)=>{
-    res.render("newproduct")
-})
-
 
 module.exports = userRoute;

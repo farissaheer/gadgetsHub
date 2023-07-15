@@ -162,7 +162,9 @@ const user = {
   loginVerify: async (req, res) => {
     let { email, password } = req.body;
     try {
-      const loginData = await userCollection.findOne({ email });
+      const loginData = await userCollection.findOne({
+        $and: [{ email }, { isAdmin: { $ne: 1 } }],
+      });
       if (loginData) {
         if (loginData.isVerified) {
           if (!loginData.isBlocked) {
@@ -219,7 +221,9 @@ const user = {
   otpRequest: async (req, res) => {
     let { email } = req.body;
     try {
-      const userData = await userCollection.findOne({ email });
+      const userData = await userCollection.findOne({
+        $and: [{ email }, { isAdmin: { $ne: 1 } }],
+      });
       if (userData) {
         if (!userData.isBlocked) {
           await otpCollection.deleteMany({ email });

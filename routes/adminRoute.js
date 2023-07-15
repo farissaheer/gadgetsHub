@@ -23,22 +23,22 @@ const storage = multer.diskStorage({
 });
 
 const uploads = multer({ storage: storage });
-
+// ----------------------------- Admin Login ---------------------------------
 adminRoute.get("/", adminAuthenticate.isLogout, adminControl.adminLogin);
 adminRoute.get("/adminHome",adminAuthenticate.isLogin, adminControl.adminHome);
 adminRoute.post("/home", adminControl.adminVerify);
-
+// --------------------------- Chart ---------------------------------------------
 adminRoute.get("/chartData", adminControl.fetchChartData);
 adminRoute.get("/chartData2", adminControl.chartData2);
-
+// --------------------------- User ---------------------------------------------
 adminRoute.get("/userList", adminAuthenticate.isLogin, adminControl.userList);
 adminRoute.get("/blockUser", adminAuthenticate.isLogin, adminControl.blockUser);
 adminRoute.get("/unblockUser", adminAuthenticate.isLogin, adminControl.unblockUser);
-
+// --------------------------- Category --------------------------------------------
 adminRoute.get("/categoryPage", adminAuthenticate.isLogin, adminControl.categoryPage);
 adminRoute.post("/createCategory", adminAuthenticate.isLogin, adminControl.createCategory);
 adminRoute.post("/categoryListUnlist", adminAuthenticate.isLogin, adminControl.listUnlistCategory);
-
+// ------------------------- Product -----------------------------------
 adminRoute.get("/addProduct", adminAuthenticate.isLogin, adminControl.addProduct);
 adminRoute.post("/addProduct", adminAuthenticate.isLogin, uploads.array("productimage"), adminControl.addProductDetails);
 adminRoute.get("/productList", adminAuthenticate.isLogin, adminControl.productList);
